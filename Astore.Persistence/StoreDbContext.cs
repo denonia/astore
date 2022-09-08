@@ -1,0 +1,31 @@
+﻿using Astore.Domain;
+using Astore.Persistence.EntityTypeConfigurations;
+using Microsoft.EntityFrameworkCore;
+
+namespace Astore.Persistence
+{
+    public class StoreDbContext : DbContext
+    {
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
+
+        public StoreDbContext(DbContextOptions<StoreDbContext> options)
+            : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfiguration(new ArticleConfiguration());
+            builder.ApplyConfiguration(new CartItemConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new ReviewConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new UserProfileConfiguration());
+
+            base.OnModelCreating(builder);
+        }
+    }
+}

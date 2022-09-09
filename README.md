@@ -3,13 +3,13 @@
 API for a simple online store
 
 ### Authentication & user details
-| Method | Path                      | Description                            | User authenticated | Admin only |
-|--------|---------------------------|----------------------------------------|--------------------|------------|
-| POST   | /auth/login               | jwt authorization by user and password |                    |            |
-| POST   | /auth/register            | register user                          |                    |            |
-| GET    | /users                    | get information about current user     | x                  |            |
-| PUT    | /users                    | update information about current user  | x                  |            |
-| GET    | /users/:id                | get information about user             | x                  | x          |
+| Method | Path                      | Description                             | User authenticated | Admin only |
+|--------|---------------------------|-----------------------------------------|--------------------|------------|
+| POST   | /auth/login               | jwt authentication by user and password |                    |            |
+| POST   | /auth/register            | register user                           |                    |            |
+| GET    | /users                    | get information about current user      | x                  |            |
+| PUT    | /users                    | update information about current user   | x                  |            |
+| GET    | /users/:id                | get information about user              | x                  | x          |
 
 ### Articles
 | Method | Path          | Description       | User authenticated | Admin only |
@@ -40,10 +40,10 @@ API for a simple online store
 
 ### Wishlist
 | Method | Path                      | Description             | User authenticated | Admin only |
-|--------|---------------------------|-------------------------|--------------------|------------|
-| GET    | /wishlist                 | get current user's wishlist            | x                  |            |
-| POST   | /wishlist                 | move wishlist items to shopping cart   | x                  |            |
-| PUT    | /wishlist                 | add articles to wishlist               | x                  |            |
-| DELETE | /wishlist                 | remove all articles from wishlist      | x                  |            |
-| DELETE | /wishlist/:id             | remove an article from wishlist        | x                  |            |
+|--------|---------------------------|-------------------------|-------------------|------------|
+| GET    | /wishlist                 | get current user's wishlist            | x                 |            |
+| POST   | /wishlist                 | move wishlist items to shopping cart   | x                 |            |
+| PUT    | /wishlist                 | add articles to wishlist               | x                 |            |
+| DELETE | /wishlist                 | remove all articles from wishlist      | x                 |            |
+| DELETE | /wishlist/:id             | remove an article from wishlist        | x                 |            |
 

@@ -15,11 +15,11 @@ public class CartService : ICartService
         _dbContext = dbContext;
     }
 
-    private async Task<User?> GetUserWithCartItemsAsync(Guid userId)
+    private async Task<UserProfile?> GetUserWithCartItemsAsync(Guid userId)
     {
-        return await _dbContext.Users
-            .Include(user => user.Profile.CartItems)
-            .SingleOrDefaultAsync(user => user.Id == userId);
+        return await _dbContext.UserProfiles
+            .Include(profile => profile.CartItems)
+            .SingleOrDefaultAsync(profile => profile.UserId == userId);
     }
 
     public async Task<ICollection<CartItem>> GetCartItemsAsync(Guid userId)
@@ -28,7 +28,7 @@ public class CartService : ICartService
         if (user == null)
             return (ICollection<CartItem>)Enumerable.Empty<CartItem>();
 
-        return user.Profile.CartItems;
+        return user.CartItems;
     }
 
     public async Task<bool> UpdateCartAsync(Guid userId, ICollection<CartItem> cart)
@@ -37,8 +37,8 @@ public class CartService : ICartService
         if (user == null)
             return false;
 
-        user.Profile.CartItems = cart;
-        _dbContext.UserProfiles.Update(user.Profile);
+        user.CartItems = cart;
+        _dbContext.UserProfiles.Update(user);
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
@@ -48,7 +48,7 @@ public class CartService : ICartService
         if (user == null)
             return false;
         
-        user.Profile.CartItems.Clear();
+        user.CartItems.Clear();
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
@@ -58,9 +58,9 @@ public class CartService : ICartService
         if (user == null)
             return false;
         
-        foreach (var item in user.Profile.CartItems.Where(item => item.Article == article))
+        foreach (var item in user.CartItems.Where(item => item.Article == article))
         {
-            user.Profile.CartItems.Remove(item);
+            user.CartItems.Remove(item);
         }
         return await _dbContext.SaveChangesAsync() > 0;
     }

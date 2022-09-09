@@ -8,7 +8,7 @@ namespace Astore.Domain
 {
     public class UserProfile
     {
-        public User User { get; set; }
+        public Guid UserId { get; set; }
         public string Address { get; set; }
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Article> Favorites { get; set; }

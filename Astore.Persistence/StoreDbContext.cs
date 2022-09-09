@@ -10,7 +10,6 @@ namespace Astore.Persistence
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
 
         public StoreDbContext(DbContextOptions<StoreDbContext> options)
@@ -22,7 +21,6 @@ namespace Astore.Persistence
             builder.ApplyConfiguration(new CartItemConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ReviewConfiguration());
-            builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new UserProfileConfiguration());
 
             base.OnModelCreating(builder);

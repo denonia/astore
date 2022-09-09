@@ -13,19 +13,19 @@ public class FavoritesService : IFavoritesService
         _dbContext = dbContext;
     }
     
-    private async Task<User?> GetUserWithFavoritesAsync(Guid userId)
+    private async Task<UserProfile?> GetUserWithFavoritesAsync(Guid userId)
     {
-        return await _dbContext.Users
-            .Include(user => user.Profile.Favorites)
-            .SingleOrDefaultAsync(user => user.Id == userId);
+        return await _dbContext.UserProfiles
+            .Include(profile => profile.Favorites)
+            .SingleOrDefaultAsync(profile => profile.UserId == userId);
     }
     
-    private async Task<User?> GetUserWithFavoritesAndCartItemsAsync(Guid userId)
+    private async Task<UserProfile?> GetUserWithFavoritesAndCartItemsAsync(Guid userId)
     {
-        return await _dbContext.Users
-            .Include(user => user.Profile.Favorites)
-            .Include(user => user.Profile.CartItems)
-            .SingleOrDefaultAsync(user => user.Id == userId);
+        return await _dbContext.UserProfiles
+            .Include(profile => profile.Favorites)
+            .Include(profile => profile.CartItems)
+            .SingleOrDefaultAsync(profile => profile.UserId == userId);
     }
     
     public async Task<ICollection<Article>> GetUserFavoritesAsync(Guid userId)
@@ -34,7 +34,7 @@ public class FavoritesService : IFavoritesService
         if (user == null)
             return (ICollection<Article>)Enumerable.Empty<Article>();
 
-        return user.Profile.Favorites;
+        return user.Favorites;
     }
 
     public async Task<bool> MoveFavoritesToCartAsync(Guid userId)
@@ -43,14 +43,14 @@ public class FavoritesService : IFavoritesService
         if (user == null)
             return false;
         
-        foreach (var favoriteArticle in user.Profile.Favorites)
+        foreach (var favoriteArticle in user.Favorites)
         {
-            var cartArticle = user.Profile.CartItems.SingleOrDefault(item => item.Article == favoriteArticle);
+            var cartArticle = user.CartItems.SingleOrDefault(item => item.Article == favoriteArticle);
 
             if (cartArticle != null)
                 cartArticle.Quantity++;
             
-            user.Profile.CartItems.Add(new CartItem
+            user.CartItems.Add(new CartItem
             {
                 Article = favoriteArticle,
                 Quantity = 1
@@ -66,7 +66,7 @@ public class FavoritesService : IFavoritesService
         if (user == null)
             return false;
 
-        user.Profile.Favorites = items;
+        user.Favorites = items;
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
@@ -76,7 +76,7 @@ public class FavoritesService : IFavoritesService
         if (user == null)
             return false;
         
-        user.Profile.Favorites.Clear();
+        user.Favorites.Clear();
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
@@ -86,7 +86,7 @@ public class FavoritesService : IFavoritesService
         if (user == null)
             return false;
 
-        user.Profile.Favorites.Remove(article);
+        user.Favorites.Remove(article);
         return await _dbContext.SaveChangesAsync() > 0;
     }
 }

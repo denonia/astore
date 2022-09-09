@@ -14,11 +14,12 @@ namespace Astore.Persistence.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
+            builder.HasKey(profile => profile.UserId);
             builder.Property(profile => profile.Address).IsRequired();
 
             builder.HasOne<IdentityUser>()
                 .WithOne()
-                .HasForeignKey<UserProfile>(x => x.UserId);
+                .HasPrincipalKey<UserProfile>(x => x.UserId);
         }
     }
 }

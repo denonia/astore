@@ -1,10 +1,12 @@
 ﻿using Astore.Domain;
 using Astore.Persistence.EntityTypeConfigurations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Astore.Persistence
 {
-    public class StoreDbContext : DbContext
+    public class StoreDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Article> Articles { get; set; }
         public DbSet<CartItem> CartItems { get; set; }

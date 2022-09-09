@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Astore.Domain", "Astore.Domain\Astore.Domain.csproj", "{ABF707F1-17D3-4AF3-8D05-A5FFD2AB2EB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astore.Domain", "Astore.Domain\Astore.Domain.csproj", "{ABF707F1-17D3-4AF3-8D05-A5FFD2AB2EB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Astore.Persistence", "Astore.Persistence\Astore.Persistence.csproj", "{7BD3D1F9-ACF8-4D00-9761-2268AA075DFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astore.Persistence", "Astore.Persistence\Astore.Persistence.csproj", "{7BD3D1F9-ACF8-4D00-9761-2268AA075DFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Astore.Application", "Astore.Application\Astore.Application.csproj", "{204A87DB-9FE9-49EA-B4AA-9A4F6C4D9B25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7BD3D1F9-ACF8-4D00-9761-2268AA075DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BD3D1F9-ACF8-4D00-9761-2268AA075DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BD3D1F9-ACF8-4D00-9761-2268AA075DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{204A87DB-9FE9-49EA-B4AA-9A4F6C4D9B25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{204A87DB-9FE9-49EA-B4AA-9A4F6C4D9B25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{204A87DB-9FE9-49EA-B4AA-9A4F6C4D9B25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{204A87DB-9FE9-49EA-B4AA-9A4F6C4D9B25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,6 +14,7 @@ public static class JwtAuthenticationExtensions
     public static void AddJwtAuthentication(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<StoreDbContext>();
         
         var jwtSettings = new JwtSettings();

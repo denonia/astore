@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddControllers();
+builder.Services.AddAuthorization();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IArticleService, ArticleService>();
@@ -18,7 +19,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
-app.MigrateDatabase();
+await app.MigrateDatabase();
 
 if (app.Environment.IsDevelopment())
 {

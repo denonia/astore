@@ -32,6 +32,17 @@ public class UsersController : ControllerBase
         return Ok(_mapper.Map<GetUserResponse>(userProfile));
     }
 
+    [Authorize(Roles = "Admin")]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser([FromRoute] Guid id)
+    {
+        var userProfile = await _userService.GetUserProfileAsync(id);
+        if (userProfile == null)
+            return NotFound();
+        
+        return Ok(_mapper.Map<GetUserResponse>(userProfile));
+    }
+
     [HttpPut]
     public async Task<IActionResult> UpdateCurrentUser([FromBody] UpdateUserRequest request)
     {

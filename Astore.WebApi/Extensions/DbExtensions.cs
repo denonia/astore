@@ -14,10 +14,20 @@ public static class DbExtensions
         services.AddDatabaseDeveloperPageExceptionFilter();
     }
 
-    public static void MigrateDatabase(this WebApplication app)
+    public static async Task MigrateDatabase(this WebApplication app)
     {
         using (var scope = app.Services.CreateScope())
-        using (var context = scope.ServiceProvider.GetService<StoreDbContext>())
-            context.Database.Migrate();
+        using (var context = scope.ServiceProvider.GetRequiredService<StoreDbContext>())
+            await context.Database.MigrateAsync();
+
+        using (var scope = app.Services.CreateScope())
+        using (var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>())
+        {
+            if (!await roleManager.RoleExistsAsync("Admin"))
+            {
+                var adminRole = new IdentityRole("Admin");
+                await roleManager.CreateAsync(adminRole);
+            }
+        }
     }
 }

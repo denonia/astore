@@ -15,7 +15,9 @@ namespace Astore.Persistence.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
             builder.HasKey(profile => profile.UserId);
-            builder.Property(profile => profile.Address).IsRequired();
+            builder.Property(profile => profile.Address);
+            builder.Property(profile => profile.FirstName);
+            builder.Property(profile => profile.LastName);
 
             builder.HasOne<IdentityUser>()
                 .WithOne()

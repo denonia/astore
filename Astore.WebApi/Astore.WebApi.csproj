@@ -91,7 +91,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Articles" />
       <Folder Include="Cart" />
       <Folder Include="Favorites" />
       <Folder Include="Reviews" />

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Astore.Application;
 using Astore.Domain;
+using Astore.Persistence;
 using Astore.WebApi.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -12,11 +13,13 @@ namespace Astore.WebApi.Auth;
 public class AuthService : IAuthService
 {
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly StoreDbContext _dbContext;
     private readonly JwtSettings _jwtSettings;
 
-    public AuthService(UserManager<IdentityUser> userManager, JwtSettings jwtSettings)
+    public AuthService(UserManager<IdentityUser> userManager, StoreDbContext dbContext, JwtSettings jwtSettings)
     {
         _userManager = userManager;
+        _dbContext = dbContext;
         _jwtSettings = jwtSettings;
     }
     
@@ -47,6 +50,9 @@ public class AuthService : IAuthService
                 Errors = createdUser.Errors.Select(err => err.Description)
             };
         }
+
+        await _dbContext.UserProfiles.AddAsync(new UserProfile { UserId = Guid.Parse(newUser.Id) });
+        await _dbContext.SaveChangesAsync();
 
         return GenerateAuthResult(newUser);
     }

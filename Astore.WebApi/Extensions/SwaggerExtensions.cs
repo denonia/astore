@@ -2,7 +2,7 @@
 
 namespace Astore.WebApi.Extensions;
 
-public static class SwaggerGenExtensions
+public static class SwaggerExtensions
 {
     public static IServiceCollection AddSwaggerGen(this IServiceCollection services)
     {
@@ -18,5 +18,11 @@ public static class SwaggerGenExtensions
                 Type = SecuritySchemeType.ApiKey
             });
         });
+    }
+
+    public static IApplicationBuilder UseSwaggerWithUI(this WebApplication app)
+    {
+        return app.UseSwagger(options => options.RouteTemplate = "swagger/{documentName}/swagger.json")
+            .UseSwaggerUI(options => options.SwaggerEndpoint("v1/swagger.json", "Astore API"));
     }
 }

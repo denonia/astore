@@ -1,4 +1,5 @@
-﻿using Astore.Application;
+﻿using System.Runtime.Versioning;
+using Astore.Application;
 using Astore.WebApi.Auth.Contracts;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;

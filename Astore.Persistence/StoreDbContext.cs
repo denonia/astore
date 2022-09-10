@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Astore.Persistence
 {
+    // Identity needs a separate context, but i'll use it here for simplicity D:
     public class StoreDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Article> Articles { get; set; }

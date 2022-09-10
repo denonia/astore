@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Astore.WebApi.Data.Migrations
+namespace Astore.Persistence.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20220909202147_InitialCreate")]
+    [Migration("20220909212516_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,7 +147,12 @@ namespace Astore.WebApi.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Address")
-                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
                         .HasColumnType("TEXT");
 
                     b.HasKey("UserId");

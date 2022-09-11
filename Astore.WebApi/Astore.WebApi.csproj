@@ -94,10 +94,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Favorites" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Astore.Application\Astore.Application.csproj" />
     </ItemGroup>
 

@@ -60,13 +60,17 @@ public class FavoritesService : IFavoritesService
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateFavoritesAsync(Guid userId, ICollection<Article> items)
+    public async Task<bool> UpdateFavoritesAsync(Guid userId, ICollection<Guid> articleIds)
     {
         var user = await GetUserWithFavoritesAsync(userId);
         if (user == null)
             return false;
 
-        user.Favorites = items;
+        user.Favorites.Clear();
+        foreach (var id in articleIds)
+        {
+            user.Favorites.Add(await _dbContext.Articles.SingleOrDefaultAsync(article => article.Id == id));
+        }
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
@@ -80,12 +84,13 @@ public class FavoritesService : IFavoritesService
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> DeleteArticleFromFavoritesAsync(Guid userId, Article article)
+    public async Task<bool> DeleteArticleFromFavoritesAsync(Guid userId, Guid articleId)
     {
         var user = await GetUserWithFavoritesAsync(userId);
         if (user == null)
             return false;
 
+        var article = user.Favorites.SingleOrDefault(article => article.Id == articleId);
         user.Favorites.Remove(article);
         return await _dbContext.SaveChangesAsync() > 0;
     }

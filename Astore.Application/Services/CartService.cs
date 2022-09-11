@@ -19,6 +19,7 @@ public class CartService : ICartService
     {
         return await _dbContext.UserProfiles
             .Include(profile => profile.CartItems)
+            .ThenInclude(item => item.Article)
             .SingleOrDefaultAsync(profile => profile.UserId == userId);
     }
 
@@ -52,13 +53,13 @@ public class CartService : ICartService
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> DeleteArticleFromCartAsync(Guid userId, Article article)
+    public async Task<bool> DeleteArticleFromCartAsync(Guid userId, Guid articleId)
     {
         var user = await GetUserWithCartItemsAsync(userId);
         if (user == null)
             return false;
         
-        foreach (var item in user.CartItems.Where(item => item.Article == article))
+        foreach (var item in user.CartItems.Where(item => item.Article.Id == articleId))
         {
             user.CartItems.Remove(item);
         }

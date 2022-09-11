@@ -2,8 +2,9 @@
 
 public static class HttpContextExtensions
 {
-    public static string? GetUserId(this HttpContext context)
+    public static Guid GetUserId(this HttpContext context)
     {
-        return context.User.Claims.SingleOrDefault(x => x.Type == "id")?.Value;
+        var idString = context.User.Claims.SingleOrDefault(x => x.Type == "id")?.Value;
+        return Guid.Parse(idString);
     }
 }

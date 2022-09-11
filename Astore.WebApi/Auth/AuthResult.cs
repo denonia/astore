@@ -1,4 +1,4 @@
-﻿namespace Astore.Domain;
+﻿namespace Astore.WebApi.Auth;
 
 public class AuthResult
 {

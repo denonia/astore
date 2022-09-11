@@ -25,10 +25,8 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetCurrentUser()
     {
         var userId = HttpContext.GetUserId();
-        if (userId == null)
-            return Unauthorized();
         
-        var userProfile = await _userService.GetUserProfileAsync(Guid.Parse(userId));
+        var userProfile = await _userService.GetUserProfileAsync(userId);
         return Ok(_mapper.Map<GetUserResponse>(userProfile));
     }
 
@@ -47,10 +45,8 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> UpdateCurrentUser([FromBody] UpdateUserRequest request)
     {
         var userId = HttpContext.GetUserId();
-        if (userId == null)
-            return Unauthorized();
         
-        var userProfile = await _userService.GetUserProfileAsync(Guid.Parse(userId));
+        var userProfile = await _userService.GetUserProfileAsync(userId);
         _mapper.Map<UpdateUserRequest, UserProfile>(request, userProfile);
         await _userService.UpdateUserProfileAsync(userProfile);
         return Ok(_mapper.Map<GetUserResponse>(userProfile));

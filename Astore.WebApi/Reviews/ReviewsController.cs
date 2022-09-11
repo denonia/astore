@@ -1,4 +1,5 @@
-﻿using Astore.Application;
+﻿using System.Net;
+using Astore.Application;
 using Astore.Domain;
 using Astore.WebApi.Articles;
 using Astore.WebApi.Extensions;
@@ -34,7 +35,7 @@ public class ReviewsController : ControllerBase
             return NotFound("Article doesn't exist");
 
         var review = _mapper.Map<Review>(request);
-        review.Author = await _userService.GetUserProfileAsync(Guid.Parse(HttpContext.GetUserId()));
+        review.Author = await _userService.GetUserProfileAsync(HttpContext.GetUserId());
         review.Article = article;
         await _reviewService.PostReviewAsync(review);
         return CreatedAtAction(nameof(Get), 
@@ -67,7 +68,7 @@ public class ReviewsController : ControllerBase
         var oldReview = await _reviewService.GetReviewByIdAsync(id);
         if (oldReview == null)
             return NotFound("Review doesn't exist");
-        if (oldReview.Author.UserId != id)
+        if (oldReview.Author.UserId != HttpContext.GetUserId())
             return Unauthorized();
         
         var newReview = _mapper.Map(request, oldReview);
@@ -82,7 +83,7 @@ public class ReviewsController : ControllerBase
         var review = await _reviewService.GetReviewByIdAsync(id);
         if (review == null)
             return NotFound("Review doesn't exist");
-        if (review.Author.UserId != id)
+        if (review.Author.UserId != HttpContext.GetUserId())
             return Unauthorized();
         
         await _reviewService.DeleteReviewAsync(review.Id);

@@ -26,7 +26,7 @@ public class ArticlesController : ControllerBase
     {
         var articles = await _articleService.GetArticlesAsync();
 
-        return Ok(_mapper.Map<GetAllArticlesResponse>(articles));
+        return Ok(_mapper.Map<IEnumerable<GetAllArticlesResponse>>(articles));
     }
     
     [HttpGet("{id}")]

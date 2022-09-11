@@ -17,6 +17,7 @@ public class ReviewService : IReviewService
     {
         return await _dbContext.Articles
             .Include(article => article.Reviews)
+            .ThenInclude(review => review.Author)
             .SingleOrDefaultAsync(article => article.Id == articleId);
     }
     
@@ -37,7 +38,9 @@ public class ReviewService : IReviewService
 
     public async Task<Review?> GetReviewByIdAsync(Guid reviewId)
     {
-        return await _dbContext.Reviews.FirstOrDefaultAsync(review => review.Id == reviewId);
+        return await _dbContext.Reviews
+            .Include(review => review.Author)
+            .FirstOrDefaultAsync(review => review.Id == reviewId);
     }
 
     public async Task<bool> UpdateReviewAsync(Review review)

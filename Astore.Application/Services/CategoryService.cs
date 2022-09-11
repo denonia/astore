@@ -17,4 +17,16 @@ public class CategoryService : ICategoryService
     {
         return await _dbContext.Categories.SingleOrDefaultAsync(category => category.Id == categoryId);
     }
+    
+    public async Task<Category> GetCategoryByNameAsync(string categoryName)
+    {
+        var category = await _dbContext.Categories.SingleOrDefaultAsync(category => category.Name == categoryName);
+        if (category == null)
+        {
+            category = new Category { Name = categoryName };
+            _dbContext.Categories.Add(category);
+            await _dbContext.SaveChangesAsync();
+        }
+        return category;
+    }
 }

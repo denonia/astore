@@ -8,6 +8,6 @@ public class CreateArticleRequestValidator : AbstractValidator<CreateArticleRequ
     {
         RuleFor(x => x.Name).NotEmpty().MaximumLength(250);
         RuleFor(x => x.Price).NotEmpty();
-        RuleFor(x => x.CategoryId).NotEmpty();
+        RuleFor(x => x.Category).NotEmpty();
     }
 }

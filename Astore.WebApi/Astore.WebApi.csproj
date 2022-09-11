@@ -94,9 +94,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Cart" />
       <Folder Include="Favorites" />
-      <Folder Include="Reviews" />
     </ItemGroup>
 
     <ItemGroup>

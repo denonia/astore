@@ -44,11 +44,10 @@ public class ArticlesController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateArticleRequest request)
     {
         var article = _mapper.Map<Article>(request);
-        var category = await _categoryService.GetCategoryAsync(request.CategoryId);
-        if (category == null)
-            return NotFound("Category not found");
+        var category = await _categoryService.GetCategoryByNameAsync(request.Category);
 
         article.Category = category;
+        await _articleService.CreateArticleAsync(article);
         return CreatedAtAction(nameof(Get), new { id = article.Id }, _mapper.Map<GetArticleResponse>(article));
     }
     
@@ -60,11 +59,9 @@ public class ArticlesController : ControllerBase
         if (article == null)
             return NotFound();
 
-        var category = await _categoryService.GetCategoryAsync(request.CategoryId);
-        if (category == null)
-            return NotFound("Category not found");
-
+        var category = await _categoryService.GetCategoryByNameAsync(request.Category);
         article.Category = category;
+        _mapper.Map(request, article);
         await _articleService.UpdateArticleAsync(article);
         return Ok(_mapper.Map<GetArticleResponse>(article));
     }

@@ -19,8 +19,10 @@ public class MappingProfile : Profile
             .ForMember(r => r.AuthorId, opt =>
                 opt.MapFrom(src => src.Author.UserId));
 
-        CreateMap<CreateArticleRequest, Article>();
+        CreateMap<CreateArticleRequest, Article>()
+            .ForMember(r => r.Category, opt => opt.Ignore());
         CreateMap<UpdateArticleRequest, Article>()
+            .ForMember(r => r.Category, opt => opt.Ignore())
             .ForAllMembers(opts => opts.Condition((_, _, srcMember) => srcMember != null));
     }
 }

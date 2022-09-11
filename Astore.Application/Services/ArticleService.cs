@@ -22,12 +22,18 @@ public class ArticleService : IArticleService
 
     public async Task<ICollection<Article>> GetArticlesAsync()
     {
-        return await _dbContext.Articles.ToListAsync();
+        return await _dbContext.Articles
+            .Include(article => article.Category)
+            .ToListAsync();
     }
 
     public async Task<Article?> GetArticleByIdAsync(Guid id)
     {
-        return await _dbContext.Articles.SingleOrDefaultAsync(article => article.Id == id);
+        return await _dbContext.Articles
+            .Include(article => article.Reviews)
+            .ThenInclude(review => review.Author)
+            .Include(article => article.Category)
+            .SingleOrDefaultAsync(article => article.Id == id);
     }
 
     public async Task<bool> UpdateArticleAsync(Article article)

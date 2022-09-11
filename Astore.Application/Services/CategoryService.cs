@@ -12,12 +12,12 @@ public class CategoryService : ICategoryService
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<Category?> GetCategoryAsync(Guid categoryId)
     {
         return await _dbContext.Categories.SingleOrDefaultAsync(category => category.Id == categoryId);
     }
-    
+
     public async Task<Category> GetCategoryByNameAsync(string categoryName)
     {
         var category = await _dbContext.Categories.SingleOrDefaultAsync(category => category.Name == categoryName);
@@ -27,6 +27,7 @@ public class CategoryService : ICategoryService
             _dbContext.Categories.Add(category);
             await _dbContext.SaveChangesAsync();
         }
+
         return category;
     }
 }

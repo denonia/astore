@@ -8,11 +8,11 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Article, GetAllArticlesResponse>()
-            .ForMember(a => a.Category, opt => 
+            .ForMember(a => a.Category, opt =>
                 opt.MapFrom(src => src.Category.Name));
-        
+
         CreateMap<Article, GetArticleResponse>()
-            .ForMember(a => a.Category, opt => 
+            .ForMember(a => a.Category, opt =>
                 opt.MapFrom(src => src.Category.Name));
 
         CreateMap<Review, GetArticleResponseReview>()

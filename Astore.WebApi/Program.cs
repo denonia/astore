@@ -1,17 +1,12 @@
 using Astore.Application;
 using Astore.Application.Services;
-using Astore.WebApi.Articles;
 using Astore.WebApi.Extensions;
 using Astore.WebApi.Validation;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options =>
-    {
-        options.Filters.Add<ValidationFilter>();
-    })
+builder.Services.AddControllers(options => { options.Filters.Add<ValidationFilter>(); })
     .AddFluentValidation(settings =>
     {
         settings.RegisterValidatorsFromAssemblyContaining<Program>();

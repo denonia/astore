@@ -9,7 +9,7 @@ public class MappingProfile : Profile
     {
         CreateMap<CreateReviewRequest, Review>();
         CreateMap<UpdateReviewRequest, Review>();
-        
+
         CreateMap<Review, GetReviewResponse>()
             .ForMember(r => r.AuthorId, opts => opts.MapFrom(src => src.Author.UserId));
     }

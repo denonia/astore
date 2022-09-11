@@ -1,6 +1,4 @@
-﻿using Astore.Domain;
-
-namespace Astore.WebApi.Articles;
+﻿namespace Astore.WebApi.Articles;
 
 public class GetAllArticlesResponse
 {

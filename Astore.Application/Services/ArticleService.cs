@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Astore.Domain;
+﻿using Astore.Domain;
 using Astore.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +12,7 @@ public class ArticleService : IArticleService
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<bool> CreateArticleAsync(Article article)
     {
         await _dbContext.Articles.AddAsync(article);
@@ -47,7 +46,7 @@ public class ArticleService : IArticleService
         var article = await GetArticleByIdAsync(id);
         if (article == null)
             return false;
-        
+
         _dbContext.Articles.Remove(article);
         return await _dbContext.SaveChangesAsync() > 0;
     }

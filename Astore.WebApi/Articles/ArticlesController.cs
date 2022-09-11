@@ -20,7 +20,7 @@ public class ArticlesController : ControllerBase
         _categoryService = categoryService;
         _mapper = mapper;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -28,7 +28,7 @@ public class ArticlesController : ControllerBase
 
         return Ok(_mapper.Map<IEnumerable<GetAllArticlesResponse>>(articles));
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Get([FromRoute] Guid id)
     {
@@ -38,7 +38,7 @@ public class ArticlesController : ControllerBase
 
         return Ok(_mapper.Map<GetArticleResponse>(article));
     }
-    
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateArticleRequest request)
@@ -50,7 +50,7 @@ public class ArticlesController : ControllerBase
         await _articleService.CreateArticleAsync(article);
         return CreatedAtAction(nameof(Get), new { id = article.Id }, _mapper.Map<GetArticleResponse>(article));
     }
-    
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateArticleRequest request)
@@ -65,7 +65,7 @@ public class ArticlesController : ControllerBase
         await _articleService.UpdateArticleAsync(article);
         return Ok(_mapper.Map<GetArticleResponse>(article));
     }
-    
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)

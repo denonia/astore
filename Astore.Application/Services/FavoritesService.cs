@@ -12,22 +12,7 @@ public class FavoritesService : IFavoritesService
     {
         _dbContext = dbContext;
     }
-    
-    private async Task<UserProfile?> GetUserWithFavoritesAsync(Guid userId)
-    {
-        return await _dbContext.UserProfiles
-            .Include(profile => profile.Favorites)
-            .SingleOrDefaultAsync(profile => profile.UserId == userId);
-    }
-    
-    private async Task<UserProfile?> GetUserWithFavoritesAndCartItemsAsync(Guid userId)
-    {
-        return await _dbContext.UserProfiles
-            .Include(profile => profile.Favorites)
-            .Include(profile => profile.CartItems)
-            .SingleOrDefaultAsync(profile => profile.UserId == userId);
-    }
-    
+
     public async Task<ICollection<Article>> GetUserFavoritesAsync(Guid userId)
     {
         var user = await GetUserWithFavoritesAsync(userId);
@@ -42,14 +27,14 @@ public class FavoritesService : IFavoritesService
         var user = await GetUserWithFavoritesAndCartItemsAsync(userId);
         if (user == null)
             return false;
-        
+
         foreach (var favoriteArticle in user.Favorites)
         {
             var cartArticle = user.CartItems.SingleOrDefault(item => item.Article == favoriteArticle);
 
             if (cartArticle != null)
                 cartArticle.Quantity++;
-            
+
             user.CartItems.Add(new CartItem
             {
                 Article = favoriteArticle,
@@ -68,9 +53,7 @@ public class FavoritesService : IFavoritesService
 
         user.Favorites.Clear();
         foreach (var id in articleIds)
-        {
             user.Favorites.Add(await _dbContext.Articles.SingleOrDefaultAsync(article => article.Id == id));
-        }
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
@@ -79,7 +62,7 @@ public class FavoritesService : IFavoritesService
         var user = await GetUserWithFavoritesAsync(userId);
         if (user == null)
             return false;
-        
+
         user.Favorites.Clear();
         return await _dbContext.SaveChangesAsync() > 0;
     }
@@ -93,5 +76,20 @@ public class FavoritesService : IFavoritesService
         var article = user.Favorites.SingleOrDefault(article => article.Id == articleId);
         user.Favorites.Remove(article);
         return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    private async Task<UserProfile?> GetUserWithFavoritesAsync(Guid userId)
+    {
+        return await _dbContext.UserProfiles
+            .Include(profile => profile.Favorites)
+            .SingleOrDefaultAsync(profile => profile.UserId == userId);
+    }
+
+    private async Task<UserProfile?> GetUserWithFavoritesAndCartItemsAsync(Guid userId)
+    {
+        return await _dbContext.UserProfiles
+            .Include(profile => profile.Favorites)
+            .Include(profile => profile.CartItems)
+            .SingleOrDefaultAsync(profile => profile.UserId == userId);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using Astore.Domain;
+﻿using Astore.Domain;
 using Astore.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +12,7 @@ public class UserService : IUserService
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<UserProfile?> GetUserProfileAsync(Guid userId)
     {
         return await _dbContext.UserProfiles

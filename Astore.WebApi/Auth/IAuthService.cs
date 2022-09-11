@@ -1,6 +1,4 @@
-﻿using Astore.Domain;
-
-namespace Astore.WebApi.Auth;
+﻿namespace Astore.WebApi.Auth;
 
 public interface IAuthService
 {

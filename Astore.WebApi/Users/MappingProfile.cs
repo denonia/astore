@@ -9,7 +9,7 @@ public class MappingProfile : Profile
     {
         CreateMap<UserProfile, GetUserResponse>();
         CreateMap<Review, GetUserResponseReview>()
-            .ForMember(r => r.ArticleId, opt => 
+            .ForMember(r => r.ArticleId, opt =>
                 opt.MapFrom(src => src.Article.Id));
         CreateMap<Article, GetUserResponseArticle>()
             .ForMember(a => a.Category, opt =>

@@ -13,14 +13,6 @@ public class ReviewService : IReviewService
         _dbContext = dbContext;
     }
 
-    private async Task<Article?> GetArticleWithReviews(Guid articleId)
-    {
-        return await _dbContext.Articles
-            .Include(article => article.Reviews)
-            .ThenInclude(review => review.Author)
-            .SingleOrDefaultAsync(article => article.Id == articleId);
-    }
-    
     public async Task<bool> PostReviewAsync(Review review)
     {
         await _dbContext.Reviews.AddAsync(review);
@@ -54,8 +46,16 @@ public class ReviewService : IReviewService
         var review = await GetReviewByIdAsync(reviewId);
         if (review == null)
             return false;
-        
+
         _dbContext.Reviews.Remove(review);
         return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    private async Task<Article?> GetArticleWithReviews(Guid articleId)
+    {
+        return await _dbContext.Articles
+            .Include(article => article.Reviews)
+            .ThenInclude(review => review.Author)
+            .SingleOrDefaultAsync(article => article.Id == articleId);
     }
 }

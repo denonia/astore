@@ -18,7 +18,9 @@ public static class DbExtensions
     {
         using (var scope = app.Services.CreateScope())
         using (var context = scope.ServiceProvider.GetRequiredService<StoreDbContext>())
+        {
             await context.Database.MigrateAsync();
+        }
 
         using (var scope = app.Services.CreateScope())
         using (var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>())

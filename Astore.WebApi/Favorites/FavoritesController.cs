@@ -20,14 +20,14 @@ public class FavoritesController : ControllerBase
         _favoritesService = favoritesService;
         _mapper = mapper;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         var favorites = await _favoritesService.GetUserFavoritesAsync(HttpContext.GetUserId());
         return Ok(_mapper.Map<ICollection<GetArticleResponse>>(favorites));
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> MoveToCart()
     {
@@ -52,7 +52,7 @@ public class FavoritesController : ControllerBase
         await _favoritesService.ClearFavoritesAsync(HttpContext.GetUserId());
         return NoContent();
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {

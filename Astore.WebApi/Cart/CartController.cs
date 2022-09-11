@@ -1,6 +1,5 @@
 ﻿using Astore.Application;
 using Astore.Domain;
-using Astore.WebApi.Articles;
 using Astore.WebApi.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,14 +20,14 @@ public class CartController : ControllerBase
         _cartService = cartService;
         _mapper = mapper;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         var cartItems = await _cartService.GetCartItemsAsync(HttpContext.GetUserId());
         return Ok(_mapper.Map<ICollection<GetCartItemResponse>>(cartItems));
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] ICollection<UpdateCartRequest> request)
     {

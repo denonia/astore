@@ -1,7 +1,5 @@
-﻿using System.Net;
-using Astore.Application;
+﻿using Astore.Application;
 using Astore.Domain;
-using Astore.WebApi.Articles;
 using Astore.WebApi.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,19 +11,20 @@ namespace Astore.WebApi.Reviews;
 [Route("articles/{articleId}/reviews")]
 public class ReviewsController : ControllerBase
 {
-    private readonly IReviewService _reviewService;
     private readonly IArticleService _articleService;
-    private readonly IUserService _userService;
     private readonly IMapper _mapper;
+    private readonly IReviewService _reviewService;
+    private readonly IUserService _userService;
 
-    public ReviewsController(IReviewService reviewService, IArticleService articleService, IUserService userService, IMapper mapper)
+    public ReviewsController(IReviewService reviewService, IArticleService articleService, IUserService userService,
+        IMapper mapper)
     {
         _reviewService = reviewService;
         _articleService = articleService;
         _userService = userService;
         _mapper = mapper;
     }
-    
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPost]
     public async Task<IActionResult> Create([FromRoute] Guid articleId, [FromBody] CreateReviewRequest request)
@@ -38,8 +37,8 @@ public class ReviewsController : ControllerBase
         review.Author = await _userService.GetUserProfileAsync(HttpContext.GetUserId());
         review.Article = article;
         await _reviewService.PostReviewAsync(review);
-        return CreatedAtAction(nameof(Get), 
-            new { articleId = article.Id, id = review.Id }, 
+        return CreatedAtAction(nameof(Get),
+            new { articleId = article.Id, id = review.Id },
             _mapper.Map<Review, GetReviewResponse>(review));
     }
 
@@ -47,10 +46,10 @@ public class ReviewsController : ControllerBase
     public async Task<IActionResult> GetAll([FromRoute] Guid articleId)
     {
         var reviews = await _reviewService.GetAllReviewsAsync(articleId);
-        
+
         return Ok(_mapper.Map<ICollection<GetReviewResponse>>(reviews));
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Get([FromRoute] Guid id)
     {
@@ -60,7 +59,7 @@ public class ReviewsController : ControllerBase
 
         return Ok(_mapper.Map<GetReviewResponse>(review));
     }
-    
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateReviewRequest request)
@@ -70,12 +69,12 @@ public class ReviewsController : ControllerBase
             return NotFound("Review doesn't exist");
         if (oldReview.Author.UserId != HttpContext.GetUserId())
             return Unauthorized();
-        
+
         var newReview = _mapper.Map(request, oldReview);
         await _reviewService.UpdateReviewAsync(newReview);
         return Ok(_mapper.Map<GetReviewResponse>(newReview));
     }
-    
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
@@ -85,7 +84,7 @@ public class ReviewsController : ControllerBase
             return NotFound("Review doesn't exist");
         if (review.Author.UserId != HttpContext.GetUserId())
             return Unauthorized();
-        
+
         await _reviewService.DeleteReviewAsync(review.Id);
         return NoContent();
     }

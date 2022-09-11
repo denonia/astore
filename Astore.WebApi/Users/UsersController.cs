@@ -12,20 +12,20 @@ namespace Astore.WebApi.Users;
 [Route("/users")]
 public class UsersController : ControllerBase
 {
-    private readonly IUserService _userService;
     private readonly IMapper _mapper;
+    private readonly IUserService _userService;
 
     public UsersController(IUserService userService, IMapper mapper)
     {
         _userService = userService;
         _mapper = mapper;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetCurrentUser()
     {
         var userId = HttpContext.GetUserId();
-        
+
         var userProfile = await _userService.GetUserProfileAsync(userId);
         return Ok(_mapper.Map<GetUserResponse>(userProfile));
     }
@@ -37,7 +37,7 @@ public class UsersController : ControllerBase
         var userProfile = await _userService.GetUserProfileAsync(id);
         if (userProfile == null)
             return NotFound();
-        
+
         return Ok(_mapper.Map<GetUserResponse>(userProfile));
     }
 
@@ -45,7 +45,7 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> UpdateCurrentUser([FromBody] UpdateUserRequest request)
     {
         var userId = HttpContext.GetUserId();
-        
+
         var userProfile = await _userService.GetUserProfileAsync(userId);
         _mapper.Map<UpdateUserRequest, UserProfile>(request, userProfile);
         await _userService.UpdateUserProfileAsync(userProfile);
